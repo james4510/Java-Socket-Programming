@@ -54,4 +54,9 @@
 * 프로토콜 설계도
   ![설계도](https://github.com/james4510/Java-Socket-Programming/assets/110220397/32116347-6d2c-4e1e-b3cc-331ff912c2b3)
 
+* 결과
+<img width="390" alt="스크린샷 2023-11-09 215352" src="https://github.com/james4510/Java-Socket-Programming/assets/110220397/4262362a-bcbb-4683-8820-0a33a76c0fbf">
+
+  <img width="401" alt="스크린샷 2023-11-09 215456" src="https://github.com/james4510/Java-Socket-Programming/assets/110220397/8503f1c8-40f2-4a26-a9b3-867e1cd4b02c">
+
 
