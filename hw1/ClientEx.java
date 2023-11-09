@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
-public class CapitalizeClient {
+public class ClientEx {
     public static void main(String[] args) throws Exception {
        
         String fileName = "Server_Info.dat";
