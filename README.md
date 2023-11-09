@@ -1,1 +1,3 @@
-# Java-Socket-Programming
+# Java-Socket-Programming HW 1
+##Calculator 
+
