@@ -72,7 +72,7 @@ public class ServerEx{
                     }
 
                     try {
-                        double result = evaluateExpression(input);
+                        String result = evaluateExpression(input);
                         out.println(result);
                     } catch (Exception e) {
                         out.println("Error: " + e.getMessage());
@@ -89,7 +89,13 @@ public class ServerEx{
                 }
             }
         }
-        private double evaluateExpression(String expression) {
+
+        private static String errorMessage(String errorCode, String errorMsg){
+            System.out.println("Error Code: "+errorCode+" Error Message: "+errorMsg);
+            return "Error Code: "+errorCode+" Error Message: "+errorMsg;
+        }
+
+        private String evaluateExpression(String expression) {
 
             StringTokenizer tokenizer = new StringTokenizer(expression, " ");
             String operator = tokenizer.nextToken();
@@ -97,46 +103,44 @@ public class ServerEx{
             double operand2 = Double.parseDouble(tokenizer.nextToken());
             
             if(tokenizer.hasMoreTokens()){
-                CalculatorProtocol.TOO_MANY_ARGS();
+                return errorMessage("400", "Too many arguments");
             }
 
-            double  result = 0.0;
+            double result = 0.0;
             switch (operator) {
-                case CalculatorProtocol.ADD:{
+                case "ADD":{
                     System.out.println(operand1+" + "+operand2+" = "+(operand1+operand2));
                     result = operand1 + operand2;
-                    return result;
+                    return "Result: "+result;
                 }
-                case CalculatorProtocol.SUBTRACT:{
+                case "MIN":{
                     System.out.println(operand1+" - "+operand2+" = "+(operand1-operand2));
                     result =  operand1 - operand2;
-                    return result;
+                    return "Result: "+result;
                 }   
-                case CalculatorProtocol.MULTIPLY:{
+                case "MUL":{
                     System.out.println(operand1+" X "+operand2+" = "+(operand1*operand2));
                     result =  operand1 * operand2;
-                    return result;
+                    return "Result: "+result;
                 }   
-                case CalculatorProtocol.DIVIDE:
+                case "DIV":
                     if (operand2 != 0) {
                         System.out.println(operand1+" / "+operand2+" = "+(operand1/operand2));
                         result =  Math.floor(operand1 / operand2);
-                        return result;
+                        return "Result: "+result;
                     } else 
-                        CalculatorProtocol.DIV_ZERO();
-                case CalculatorProtocol.MODULAR:
+                        return errorMessage("401", "Division by zero");
+                case "MOD":
                     if (operand2 != 0) {
                         System.out.println(operand1+" % "+operand2+" = "+(operand1%operand2));
                         result =  operand1 % operand2;
-                        return result;
+                        return "Result: "+result;
                     } 
                     else
-                        CalculatorProtocol.MOD_ZERO(); 
+                        return errorMessage("401", "Division by zero");
                 default:
-                    CalculatorProtocol.INVALID_OPERATOR();
+                    return errorMessage("402", "Invalid Operator");
             }
-            return result;
-
             
         }
         
