@@ -4,7 +4,10 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CapitalizeServer {
+public class ServerEx{
+
+    
+
     public static void writeDataToFile(String fileName){
         try{
             FileWriter fileWriter = new FileWriter(fileName);
@@ -59,16 +62,18 @@ public class CapitalizeServer {
             try {
                 Scanner in = new Scanner(socket.getInputStream());
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                
 
                 while (in.hasNextLine()) {
                     String input = in.nextLine();
+                    
                     if (input.equalsIgnoreCase("quit")) {
                         break;
                     }
 
                     try {
                         double result = evaluateExpression(input);
-                        out.println(Double.toString(result));
+                        out.println(result);
                     } catch (Exception e) {
                         out.println("Error: " + e.getMessage());
                     }
@@ -84,33 +89,56 @@ public class CapitalizeServer {
                 }
             }
         }
-
         private double evaluateExpression(String expression) {
-            // 간단한 수식 평가 로직을 구현하세요.
-            // 이 예제에서는 수식을 파싱하여 연산자와 피연산자를 분리하고 계산합니다.
-            // 실제로 더 복잡한 계산 로직을 구현할 수 있습니다.
-            String[] parts = expression.split(" ");
-            double operand1 = Double.parseDouble(parts[1]);
-            String operator = parts[0];
-            double operand2 = Double.parseDouble(parts[2]);
 
-
-            switch (operator) {
-                case "ADD":
-                    return operand1 + operand2;
-                case "MIN":
-                    return operand1 - operand2;
-                case "MUL":
-                    return operand1 * operand2;
-                case "DIV":
-                    if (operand2 != 0) {
-                        return operand1 / operand2;
-                    } else {
-                        throw new ArithmeticException("Incorrect: \nDivision by zero");
-                    }
-                default:
-                    throw new IllegalArgumentException("Invalid operator: " + operator);
+            StringTokenizer tokenizer = new StringTokenizer(expression, " ");
+            String operator = tokenizer.nextToken();
+            double operand1 = Double.parseDouble(tokenizer.nextToken());
+            double operand2 = Double.parseDouble(tokenizer.nextToken());
+            
+            if(tokenizer.hasMoreTokens()){
+                CalculatorProtocol.TOO_MANY_ARGS();
             }
+
+            double  result = 0.0;
+            switch (operator) {
+                case CalculatorProtocol.ADD:{
+                    System.out.println(operand1+" + "+operand2+" = "+(operand1+operand2));
+                    result = operand1 + operand2;
+                    return result;
+                }
+                case CalculatorProtocol.SUBTRACT:{
+                    System.out.println(operand1+" - "+operand2+" = "+(operand1-operand2));
+                    result =  operand1 - operand2;
+                    return result;
+                }   
+                case CalculatorProtocol.MULTIPLY:{
+                    System.out.println(operand1+" X "+operand2+" = "+(operand1*operand2));
+                    result =  operand1 * operand2;
+                    return result;
+                }   
+                case CalculatorProtocol.DIVIDE:
+                    if (operand2 != 0) {
+                        System.out.println(operand1+" / "+operand2+" = "+(operand1/operand2));
+                        result =  Math.floor(operand1 / operand2);
+                        return result;
+                    } else 
+                        CalculatorProtocol.DIV_ZERO();
+                case CalculatorProtocol.MODULAR:
+                    if (operand2 != 0) {
+                        System.out.println(operand1+" % "+operand2+" = "+(operand1%operand2));
+                        result =  operand1 % operand2;
+                        return result;
+                    } 
+                    else
+                        CalculatorProtocol.MOD_ZERO(); 
+                default:
+                    CalculatorProtocol.INVALID_OPERATOR();
+            }
+            return result;
+
+            
         }
+        
     }
 }
