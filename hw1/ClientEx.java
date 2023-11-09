@@ -33,7 +33,7 @@ public class ClientEx {
 
             out.println(input);
             String result = in.nextLine();
-            System.out.println("Result: " + result);
+            System.out.println(result);
         }
         
         socket.close();
